@@ -40,16 +40,14 @@ android {
 
 dependencies {
 
-    // DI
-    implementation(libs.koin)
-
     // Google Jetpack / AndroidX
     implementation(libs.lifecycle.livedata)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.recyclerview )
+    implementation(libs.androidx.recyclerview)
 
     // UI
     implementation(libs.material)
@@ -61,6 +59,10 @@ dependencies {
 
     // Testing Libraries
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }

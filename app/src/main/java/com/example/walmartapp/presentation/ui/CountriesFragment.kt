@@ -35,6 +35,7 @@ class CountriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpUI()
         setUpObservers()
+        viewModel.getCountries()
     }
 
     private fun setUpUI() {

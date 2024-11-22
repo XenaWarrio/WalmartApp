@@ -3,9 +3,7 @@ package com.example.walmartapp.di
 import com.example.walmartapp.data.CountriesRepository
 import com.example.walmartapp.data.remote.NetworkDataStore
 import com.example.walmartapp.data.remote.WalmartApi
-import com.example.walmartapp.presentation.viewModel.CountriesViewModel
 import okhttp3.OkHttpClient
-import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit

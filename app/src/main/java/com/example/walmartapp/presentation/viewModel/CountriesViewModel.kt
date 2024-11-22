@@ -20,11 +20,7 @@ class CountriesViewModel(private val repository: CountriesRepository) : ViewMode
     private val _countriesError = MutableLiveData<String>()
     val countriesError: LiveData<String> = _countriesError
 
-    init {
-        getCountries()
-    }
-
-    private fun getCountries(scope: CoroutineScope = viewModelScope) {
+    fun getCountries(scope: CoroutineScope = viewModelScope) {
         scope.launch {
             when (val result = repository.getCountries()) {
                 is Result.Success -> {
