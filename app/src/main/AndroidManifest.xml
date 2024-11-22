@@ -16,10 +16,10 @@
         android:theme="@style/Theme.WalmartApp"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.MainActivity"
+            android:name=".presentation.ui.CountryActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ui.CountryActivity"
+            android:name=".presentation.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
