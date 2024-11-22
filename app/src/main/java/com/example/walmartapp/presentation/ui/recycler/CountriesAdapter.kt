@@ -1,5 +1,6 @@
 package com.example.walmartapp.presentation.ui.recycler
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,8 +13,13 @@ import com.example.walmartapp.databinding.ItemCountryBinding
 class CountriesAdapter : RecyclerView.Adapter<CountryViewHolder>() {
 
    private val countries = mutableListOf<Country>()
+    init {
+        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
 
     fun setCountries(newCountries: List<Country>){
+        Log.d("MKDKDL", "setCountries")
+
         val diffCallback = CountryDiffUtil(countries, newCountries)
         val diffCountries = DiffUtil.calculateDiff(diffCallback)
 

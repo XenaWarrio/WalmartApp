@@ -1,24 +1,33 @@
 package com.example.walmartapp.presentation.ui
 
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.distinctUntilChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.walmartapp.databinding.FragmentCountriesBinding
+import com.example.walmartapp.di.ManualDIModule
 import com.example.walmartapp.presentation.ui.recycler.CountriesAdapter
 import com.example.walmartapp.presentation.viewModel.CountriesViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 class CountriesFragment : Fragment() {
 
     private var _binding: FragmentCountriesBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: CountriesViewModel by viewModel()
+    private val viewModel: CountriesViewModel by activityViewModels {
+        CountriesViewModel.CountriesViewModelFactory(ManualDIModule.countriesRepository)
+    }
     private val adapter = CountriesAdapter()
+    private var recyclerViewState: Parcelable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,18 +41,23 @@ class CountriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpUI()
         setUpObservers()
-
-        viewModel.getCountries()
     }
 
     private fun setUpUI() {
-        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.recycler.adapter = adapter
+        recyclerViewState?.let {
+            binding.recycler.layoutManager?.onRestoreInstanceState(it)
+        }
     }
 
     private fun setUpObservers() {
-        viewModel.countries.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
+        Log.d("MKDKDL", "viewModel $viewModel")
+        viewModel.countries
+            .distinctUntilChanged()
+            .observe(viewLifecycleOwner) {
+                Log.d("MKDKDL", "observer")
+
+                if (it.isNotEmpty()) {
                 hideEmptyListView()
                 showRecycler()
                 adapter.setCountries(it)
@@ -52,7 +66,9 @@ class CountriesFragment : Fragment() {
                 showEmptyListView()
             }
         }
-        viewModel.countriesError.observe(viewLifecycleOwner) {
+        viewModel.countriesError
+            .distinctUntilChanged()
+            .observe(viewLifecycleOwner) {
             showEmptyListView()
             Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
@@ -74,8 +90,10 @@ class CountriesFragment : Fragment() {
         binding.emptyList.visibility = View.INVISIBLE
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
+        recyclerViewState = binding.recycler.layoutManager?.onSaveInstanceState()
         _binding = null
     }
 }
