@@ -15,13 +15,13 @@ object ManualDIModule {
 
     /** Instances declared here will be Singleton
      * and will stay alive during whole livecycle of app **/
-    val retrofit: Retrofit by lazy {
+    private val retrofit: Retrofit by lazy {
         provideRetrofit()
     }
-    val walmartApi: WalmartApi by lazy {
+    private val walmartApi: WalmartApi by lazy {
         provideApiService(retrofit)
     }
-    val networkDataStore: NetworkDataStore by lazy {
+    private val networkDataStore: NetworkDataStore by lazy {
         NetworkDataStore(walmartApi)
     }
     val countriesRepository: CountriesRepository by lazy {
