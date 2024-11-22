@@ -48,7 +48,6 @@ class CountriesFragment : Fragment() {
 
     private fun setUpObservers() {
         viewModel.countries
-            .distinctUntilChanged()
             .observe(viewLifecycleOwner) { countryList ->
                 if (countryList.isNotEmpty()) {
                     hideEmptyListView()
@@ -60,7 +59,6 @@ class CountriesFragment : Fragment() {
                 }
             }
         viewModel.countriesError
-            .distinctUntilChanged()
             .observe(viewLifecycleOwner) {
                 showEmptyListView()
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
