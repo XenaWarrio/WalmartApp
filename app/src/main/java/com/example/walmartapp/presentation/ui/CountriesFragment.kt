@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.walmartapp.databinding.FragmentCountriesBinding
 import com.example.walmartapp.di.ManualDIModule
@@ -39,10 +38,9 @@ class CountriesFragment : Fragment() {
     }
 
     private fun setUpUI() {
-        binding.recycler.layoutManager = LinearLayoutManager(requireContext())
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.recycler.adapter = adapter
-        binding.recycler.adapter?.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun setUpObservers() {
@@ -65,6 +63,7 @@ class CountriesFragment : Fragment() {
     }
 
     private fun hideRecycler() {
+        binding.progressBar.visibility = View.INVISIBLE
         binding.recycler.visibility = View.INVISIBLE
     }
 
@@ -77,6 +76,7 @@ class CountriesFragment : Fragment() {
     }
 
     private fun hideEmptyListView() {
+        binding.progressBar.visibility = View.INVISIBLE
         binding.emptyList.visibility = View.INVISIBLE
     }
 
